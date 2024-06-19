@@ -65,6 +65,7 @@ function addClickListener(cb) {
     })
 }
 
+
 function setMarker(loc) {
     (gMarker) && gMarker.setMap(null)
     if (!loc) return

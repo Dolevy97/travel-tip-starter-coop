@@ -1,16 +1,71 @@
+.delete-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
 
-.delete-modal{
-position: fixed;
-top: 50%;
-left: 50%;
-background-color:black;
-border: 7px solid gray;
-border-radius: 15%;
-display: none;
+    background-color: black;
+    border: 7px solid gray;
+    border-radius: 15px;
+    display: none;
 }
-.xbtn{
+
+.xbtn {
     color: red;
 }
-.deletebtn{
+
+.deletebtn {
     color: red;
+}
+
+/* Dialog */
+
+dialog::backdrop {
+    background-color: rgb(0 0 0 / 0.5);
+}
+
+dialog {
+    border: 1px solid black;
+    box-shadow: 1px 1px 4px black;
+    color: var(--color1);
+    background-color: var(--bg3);
+    border-radius: 15px;
+}
+
+dialog h2 {
+    margin-block-start: 0;
+}
+
+dialog input, button {
+    border-radius: 5px;
+}
+
+dialog input {
+    margin-inline: 5px;
+    padding-inline: 5px;
+    width: 120px;
+}
+
+.btn-close-modal {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    background-color: inherit;
+    color: var(--color1);
+    font-weight: 500;
+    font-size: 1.5em;
+    border-radius: 20px;
+
+}
+
+button, .btn-close-modal {
+    transition: color .5s;
+}
+
+.btn-close-modal:hover {
+    background-color: inherit;
+}
+
+.hidden {
+    display: none;
 }

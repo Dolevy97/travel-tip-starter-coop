@@ -26,6 +26,30 @@
         </form>
     </header>
     <main>
+
+        <dialog>
+            <form class="dialog-form" method="dialog" onsubmit="app.onSaveLoc()">
+                <button type="button" class="btn-close-modal" onclick="app.onCloseModal()">X</button>
+                <h2>Enter new rate</h2>
+                <input
+                class="dialog-name-input hidden"
+                min="0"
+                max="5"
+                type="text"
+                placeholder="Enter place name">
+                
+                <input
+                class="dialog-rate-input"
+                min="0"
+                max="5"
+                type="number"
+                placeholder="Enter rate"
+                required>
+
+                <button class="submit">submit</button>
+            </form>
+        </dialog>
+
         <div class="map"></div>
         <div>
             <section class="locs-container">
@@ -37,7 +61,8 @@
                     <div>
                         <label>
                             Min Rate:
-                            <input name="filter-by-rate" type="range" min="0" max="5" value="0" class="filter-rate-range"
+                            <input name="filter-by-rate" type="range" min="0" max="5" value="0"
+                                class="filter-rate-range"
                                 onchange="this.title=this.value;app.onSetFilterBy({minRate: this.value})" />
                         </label>
                     </div>

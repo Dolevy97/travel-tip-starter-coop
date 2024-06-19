@@ -8,7 +8,7 @@ window.onload = onInit
 // functions that are called from DOM are defined on a global app object
 window.app = {
     onRemoveLoc,
-    onUpdateLoc,
+    // onUpdateLoc,
     onSelectLoc,
     onPanToUserPos,
     onSearchAddress,
@@ -16,6 +16,9 @@ window.app = {
     onShareLoc,
     onSetSortBy,
     onSetFilterBy,
+    onShowEditModal,
+    onSaveLoc,
+    onCloseModal,
 }
 
 function onInit() {
@@ -51,7 +54,7 @@ function renderLocs(locs) {
             </p>
             <div class="loc-btns">     
                <button title="Delete" onclick="app.onRemoveLoc('${loc.id}')">🗑️</button>
-               <button title="Edit" onclick="app.onUpdateLoc('${loc.id}')">✏️</button>
+               <button title="Edit" onclick="app.onShowEditModal('${loc.id}')">✏️</button>
                <button title="Select" onclick="app.onSelectLoc('${loc.id}')">🗺️</button>
             </div>     
         </li>`}).join('')
@@ -67,10 +70,6 @@ function renderLocs(locs) {
     }
     document.querySelector('.debug').innerText = JSON.stringify(locs, null, 2)
 }
-
-
-
-
 
 function onSearchAddress(ev) {
     ev.preventDefault()
@@ -129,16 +128,29 @@ function onPanToUserPos() {
         })
 }
 
-function onUpdateLoc(locId) {
+function onShowEditModal(locId = '') {
+    const elDialog = document.querySelector('dialog')
+    elDialog.dataset.locId = locId
+    elDialog.showModal()
+    elDialog.querySelector('input').focus()
+}
+
+function onCloseModal() {
+    document.querySelector('dialog').close()
+}
+
+function onSaveLoc() {
+    const locId = document.querySelector('dialog').dataset.locId
     locService.getById(locId)
         .then(loc => {
-            const rate = prompt('New rate?', loc.rate)
+            const rate = document.querySelector('.dialog-input').value
             if (rate !== loc.rate) {
                 loc.rate = rate
                 locService.save(loc)
                     .then(savedLoc => {
-                        flashMsg(`Rate was set to: ${savedLoc.rate}`)
+                        flashMsg(`Rate was set to: ${savedLoc.rate} stars`)
                         loadAndRenderLocs()
+                        document.querySelector('.dialog-input').value = ''
                     })
                     .catch(err => {
                         console.error('OOPs:', err)
@@ -147,7 +159,9 @@ function onUpdateLoc(locId) {
 
             }
         })
+
 }
+
 
 function onSelectLoc(locId) {
     return locService.getById(locId)
@@ -214,7 +228,7 @@ function getFilterByFromQueryParams() {
     const queryParams = new URLSearchParams(window.location.search)
     const txt = queryParams.get('txt') || ''
     const minRate = queryParams.get('minRate') || 0
-    locService.setFilterBy({txt, minRate})
+    locService.setFilterBy({ txt, minRate })
 
     document.querySelector('input[name="filter-by-txt"]').value = txt
     document.querySelector('input[name="filter-by-rate"]').value = minRate
@@ -309,9 +323,6 @@ function cleanStats(stats) {
     }, [])
     return cleanedStats
 }
-
-
-
 
 let locIdToDelete;
 
