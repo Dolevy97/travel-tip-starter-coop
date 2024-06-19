@@ -34,7 +34,7 @@ function lookupAddressGeo(geoOrAddress) {
     // const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}`
     // const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452`
 
-    var url = `https://maps.googleapis.com/maps/api/geocode/json?key=${API_KEY}&`
+    var url = `https://maps.googleapis.com/maps/api/geocode/json?key=${API_KEY}`
     url += (geoOrAddress.lat) ? `latlng=${geoOrAddress.lat},${geoOrAddress.lng}` :
         `address=${geoOrAddress}`
 
